@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "624b43ac-22a0-4d72-8c03-9e9c0d7b3324",
+		"name": "ReqResAPICollection",
+		"description": "Complete Collection of APIs of reqres.in",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET User Details",
+			"item": [
+				{
+					"name": "List of Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0b15edda-0f46-4a81-ae9f-e7c0f225b3e7",
+								"exec": [
+									"tests[\"verify Response Code is 200\"]=responseCode.code==200;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f862e2c1-6206-40aa-aa45-3187b5b773fe",
+								"exec": [
+									"console.log(\"Retireve List of Users\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "This GET Request provide the List of users in First Page and their info in JSON"
+					},
+					"response": []
+				},
+				{
+					"name": "List of Users Pagewise",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7ad0d2ce-5599-4fce-a642-f3c80c4c52b3",
+								"exec": [
+									"console.log(\"Retireve User details by Page for page=\"+data.page);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e074f652-f3a2-4ec0-bbc0-48ba7cc51b17",
+								"exec": [
+									"pm.test(\"Verify the Page Number\", function () {",
+									"var jsonData=pm.response.json();",
+									"pm.expect (jsonData.page).to.eql(data.page);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users?page={{page}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "{{page}}"
+								}
+							]
+						},
+						"description": "This GET Request provide the List of users in Pagewise and their info in JSON\n\nPage will be sent as a query paramter(?page=2)"
+					},
+					"response": []
+				},
+				{
+					"name": "Single User Details",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f714e5a9-af5e-4267-b12a-054f191d82ab",
+								"exec": [
+									"console.log(\"Retireve User details by user id for id=\"+data.userid);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "eafcea18-0550-4213-a886-1e85bb4aaee1",
+								"exec": [
+									"if(responseCode.code==404){",
+									"console.log(\"user with userid= \"+data.userid+ \" is  Not found\");",
+									"}",
+									"else{",
+									"pm.test(\"Verify the User Id\", function () {",
+									"var jsonData=pm.response.json();",
+									"pm.expect (jsonData.data.id).to.eql(data.userid);",
+									"});",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/users/{{userid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userid}}"
+							]
+						},
+						"description": "Retrieve  the Single user details by user id as a Path parameter"
+					},
+					"response": []
+				}
+			],
+			"description": "Collections of ALL User GET requests in reqres.in",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7223bfe5-ef87-499c-be38-e8bf2f81c7be",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "40a53a31-89a8-4bff-85fc-f78c48e14cf5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "GET Resouce Details",
+			"item": [
+				{
+					"name": "List of Resources",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4a46fa95-e0dd-4a86-9577-3c1f4261f920",
+								"exec": [
+									"console.log(\"Retireve User Resource Details of Page 1\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6251d4ff-95f3-4d12-9085-2225c0e1371f",
+								"exec": [
+									"pm.test(\"Verify the resource Page has year Details\", function(){",
+									"pm.expect(pm.response.text()).to.include(\"year\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{resourceURI}}",
+							"host": [
+								"{{url}}{{resourceURI}}"
+							]
+						},
+						"description": "Retireve the Resources details of 1st Page"
+					},
+					"response": []
+				},
+				{
+					"name": "Single Resource Details",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "edcbbe4d-804c-4660-abb6-2f2359115c57",
+								"exec": [
+									"console.log(\"Retireve resource details by resource id for id=\"+data.resourceid);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e51030a-3a44-430a-b56b-8e38bcde8704",
+								"exec": [
+									"pm.test(\"Verify the resource Id\", function () {",
+									"if(responseCode.code==404){",
+									"console.log(\"user with userid= \"+data.resourceid+ \" is  Not found\");",
+									"}",
+									"else{",
+									"var jsonData=pm.response.json();",
+									"pm.expect (jsonData.data.id).to.eql(data.resourceid);}",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}{{resourceURI}}/{{resourceid}}",
+							"host": [
+								"{{url}}{{resourceURI}}"
+							],
+							"path": [
+								"{{resourceid}}"
+							]
+						},
+						"description": "Single Resource Details"
+					},
+					"response": []
+				}
+			],
+			"description": "To Retireve the Resource Details of users",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9d93ff01-7101-4b36-be64-5685ebf8e849",
+						"type": "text/javascript",
+						"exec": [
+							"pm.variables.set(\"resourceURI\",\"/api/unknown\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9debdbdc-0e1c-4793-adb8-c5733330f9eb",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "POST User Login",
+			"item": [
+				{
+					"name": "Successfull Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "a66272c6-b7fc-4925-8643-2d70c56f0c7f",
+								"exec": [
+									"console.log(\"Verify the Login\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "851b6e96-d30f-46b7-8c6f-a71e40449611",
+								"exec": [
+									"if(responseCode.code==200)",
+									"{",
+									"    pm.test(\"Verify the token in response\", function(){",
+									"    pm.expect(pm.response.text()).to.include(\"token\");",
+									"});",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}{{loginURI}}",
+							"host": [
+								"{{url}}{{loginURI}}"
+							]
+						},
+						"description": "Login attempt with correct Credentials"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8688eee7-4acb-41c0-862a-adb52376d2fe",
+						"type": "text/javascript",
+						"exec": [
+							"pm.variables.set(\"loginURI\",\"/api/login\");"
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "04425d11-3db5-4608-82e1-52ff3f339510",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "bb1ce286-2a73-4122-a861-572b7fe64364",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "748d3d49-7ff0-400c-a60c-51d01adbab65",
+			"key": "url",
+			"value": "https://reqres.in",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
